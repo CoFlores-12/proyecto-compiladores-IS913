@@ -1,6 +1,1 @@
 Flask
-python-dotenv
-flask_cors
-pymongo
-pywebpush
-certifi
