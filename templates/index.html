@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="/static/style.css" /> 
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<div>
+    <nav class="bg-white border-b border-gray-200 fixed z-30 w-full">
+       <div class="px-3 py-3 lg:px-5 lg:pl-3">
+          <div class="flex items-center justify-between">
+             <div class="flex items-center justify-start">
+                
+                <a href="#" class="text-xl font-bold flex items-center lg:ml-2.5">
+                <img src="/static/IS.png" class="h-6 mr-2" alt="Windster Logo">
+                <span class="self-center whitespace-nowrap">Diseño de compiladores</span>
+                </a>
+                
+             </div>
+             <div class="flex items-center">
+                <button id="toggleSidebarMobileSearch" type="button" class="p-2 rounded-lg flex flex-row justify-center items-center">
+                    
+                    <svg id="updateLogo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="16" width="16" version="1.1" id="Capa_1" viewBox="0 0 32 32" xml:space="preserve">
+                        <g>
+                            <g id="spin">
+                                <g>
+                                    <path style="fill:#fff;" d="M25.883,6.086l-2.82,2.832C24.953,10.809,26,13.324,26,16c0,5.516-4.484,10-10,10v-2l-4,4l4,4v-2     c7.719,0,14-6.281,14-14C30,12.254,28.539,8.734,25.883,6.086z"/>
+                                    <path style="fill:#fff;" d="M20,4l-4-4v2C8.281,2,2,8.281,2,16c0,3.746,1.461,7.266,4.117,9.914l2.82-2.832     C7.047,21.191,6,18.676,6,16c0-5.516,4.484-10,10-10v2L20,4z"/>
+                                </g>
+                            </g>
+                        </g>
+                        </svg>
+                    <span class="">Update</span>
+                </button>
+             </div>
+          </div>
+       </div>
+    </nav>
+    <div class="flex overflow-hidden bg-white pt-16">
+       <div id="main-content" class="h-full w-full bg-gray-50 relative overflow-y-auto">
+          <main>
+             <div class="pt-6 px-4">
+                <div class="w-full grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4">
+                   <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8  2xl:col-span-2">
+                      
+                      <canvas id="myChart"></canvas>
+                   </div>
+                   <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+                      <div class="mb-4 flex items-center justify-between">
+                         <div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">New Transaction</h3>
+                            <span class="text-lg">
+                                1 <span id="orcurr"></span> is equal to
+                                <h1 class="text-2xl font-bold"><span id="convertDes">1 United States Dollar</span> </h1>
+                            </span>
+                         </div>
+                        
+                      </div>
+                      <div class="flex flex-col mt-8">
+                         <div class="overflow-x-auto rounded-lg">
+                            
+                            <div class="inputCollection m-2 bg-gray-100 p-2">
+                                <input type="number" name="origenNumber" id="origenNumber" value="1">
+                                <select name="" id="origenCurrency">
+                                    <option value="USD">USD</option>
+                                </select>
+                            </div>
+                            <div class="inputCollection m-2 bg-gray-100 p-2">
+                                <input type="number" name="origenNumber" id="desNumber" value="1">
+                                <select name="" id="desCurrency">
+                                    <option value="USD">USD</option>
+                                </select>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+                <span class="mt-4">Base: EUR - EURO</span>
+                <div class="mt-4 w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                   <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+                      <div class="flex items-center">
+                         <div class="flex-shrink-0">
+                            <span id="HNLbase" class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">26.847055</span>
+                            <h3 class="text-base font-normal text-gray-500">HNL - Honduran Lempira</h3>
+                         </div>
+                         
+                      </div>
+                   </div>
+                   <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+                      <div class="flex items-center">
+                         <div class="flex-shrink-0">
+                            <span id="USDbase" class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">1.080672</span>
+                            <h3 class="text-base font-normal text-gray-500">USD - United States Dollar</h3>
+                         </div>
+                         
+                      </div>
+                   </div>
+                   <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+                      <div class="flex items-center">
+                         <div class="flex-shrink-0">
+                            <span id="CNYbase" class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">7.697197</span>
+                            <h3 class="text-base font-normal text-gray-500">CNY - Chinese Yuan</h3>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+                <div class="grid grid-cols-1 2xl:grid-cols-2 xl:gap-4 my-4">
+                   <div class="bg-white shadow rounded-lg mb-4 p-4 sm:p-6 h-full">
+                      <div class="flex items-center justify-between mb-4">
+                         <h3 class="text-xl font-bold leading-none text-gray-900">Code</h3>
+                         
+                      </div>
+                      <div class="flow-root">
+                         <ul role="list" class="divide-y divide-gray-200">
+                            <li class="py-3 sm:py-4">
+                               
+                            </li>
+                            <li class="py-3 sm:py-4">
+                               
+                            </li>
+                            <li class="py-3 sm:py-4">
+                               
+                            </li>
+                            <li class="py-3 sm:py-4">
+                               
+                            </li>
+                            <li class="pt-3 sm:pt-4 pb-0">
+                               
+                            </li>
+                         </ul>
+                      </div>
+                   </div>
+                   <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+                      <h3 class="text-xl leading-none font-bold text-gray-900 mb-10">REST API</h3>
+                      <div class="block w-full overflow-x-auto">
+                         
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </main>
+          
+          <p class="text-center text-sm text-gray-500 my-10">
+             &copy; 2024 <a href="#" class="hover:underline" target="_blank">Cofloresf</a>. All rights reserved.
+          </p>
+       </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/static/js/app..js"></script>
+ </div>
+</body>
+</html>

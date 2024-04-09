@@ -1,0 +1,21 @@
+#toggleSidebarMobileSearch {
+    background-color: #091c5a;
+    color: white;
+}
+#updateLogo {
+    transition: all 1s ease-in-out;
+}
+.inputCollection {
+    width: fit-content;
+    border-radius: 10px;
+}
+
+.inputCollection > input {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+.inputCollection > select {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+.inputCollection > input:focus,.inputCollection > select:focus  {
+    outline: none;
+}
