@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, redirect
 from flask import render_template 
 from convert import Currency
 import urllib.request
@@ -8,9 +8,9 @@ app = Flask(__name__)
 
 currency = Currency()
 
-@app.route("/")
-def hello():
-    return render_template('index.html') 
+@app.route('/')
+def index():
+    return redirect('/static/www/index.html')
 
 @app.route("/api/lastest")
 def getData():
