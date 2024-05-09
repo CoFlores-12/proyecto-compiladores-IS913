@@ -42,6 +42,3 @@ def postUpdate():
     currency.update()
     return jsonify({"response":"updated"})
 
-
-if __name__ == "__main__": 
-    app.run(debug=True)
