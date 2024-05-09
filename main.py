@@ -10,7 +10,7 @@ currency = Currency()
 
 @app.route('/')
 def index():
-    return redirect('/static/www/index.html')
+    return redirect('/static/index.html')
 
 @app.route("/api/lastest")
 def getData():
