@@ -1,4 +1,4 @@
-from flask import Flask 
+from flask import Flask, request, jsonify
 from flask import render_template 
 from convert import Currency
 import urllib.request
@@ -27,6 +27,21 @@ def getDate():
 @app.route("/api/history")
 def getHistory():
     return currency.getHistory()
+
+@app.route("/api/convert", methods=['POST'])
+def postConvert():
+    data = request.json
+    response = currency.convert(
+        data.get('orig'), 
+        data.get('value'), 
+        data.get('dest'))
+    return jsonify({"response":response})
+
+@app.route("/api/update")
+def postUpdate():
+    currency.update()
+    return jsonify({"response":"updated"})
+
 
 if __name__ == "__main__": 
     app.run(debug=True)

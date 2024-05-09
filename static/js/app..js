@@ -1,4 +1,5 @@
 const toggleSidebarMobileSearch = document.getElementById('toggleSidebarMobileSearch');
+const loadingModal = document.getElementById('loadingModal');
 const updateLogo = document.getElementById('updateLogo');
 //selects
 const origenCurrency = document.getElementById('origenCurrency');
@@ -19,29 +20,91 @@ var dataChart = [];
 var datesChart = [];
 var chart = null;
 
-convertOrigValue.addEventListener('change', ()=>{
+toggleSidebarMobileSearch.addEventListener('click', function(e) {
+  loadingModal.classList.remove('hidden');
+
+  fetch('/api/update', {
+    method: 'GET'
+  })
+  .then(response => response.json())
+  .then(response => {
+    if (response.response === 'updated'){
+      init();
+    }
+  })
+})
+
+convertOrigValue.addEventListener('keyup', ()=>{
   value = convertOrigValue.value;
   orig = origenCurrency.value;
   dest = desCurrency.value;
-
-  //TODO: send request to server and convert
+  if (value === '') {
+    return
+  }
+  fetch('/api/convert', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      value: value,
+      orig: orig,
+      dest: dest
+    })
+  })
+  .then(response => response.json())
+  .then(response => {
+    desNumber.value = response.response
+  });
 })
-
-desNumber.addEventListener('change', ()=>{
+desNumber.addEventListener('keyup', ()=>{
   value = desNumber.value;
   orig = desCurrency.value;
   dest = origenCurrency.value;
 
-  //TODO: send request to server and convert
+  if (value === '') {
+    return
+  }
+  fetch('/api/convert', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      value: value,
+      orig: orig,
+      dest: dest
+    })
+  })
+  .then(response => response.json())
+  .then(response => {
+    convertOrigValue.value = response.response
+  });
   
 })
-
 origenCurrency.addEventListener("change", ()=>{
   orig = origenCurrency.value;
   dest = desCurrency.value;
   value = convertOrigValue.value;
 
-  //TODO: send request to server and convert
+  if (value === '') {
+    return
+  }
+  fetch('/api/convert', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      value: value,
+      orig: orig,
+      dest: dest
+    })
+  })
+  .then(response => response.json())
+  .then(response => {
+    desNumber.value = response.response
+  });
   orcurr.innerHTML = symbols[orig];
   convertDes.innerHTML = historyCurr[historyCurr.length-1]['rates'][dest]/historyCurr[historyCurr.length-1]['rates'][orig] + " " + symbols[dest];
   
@@ -52,7 +115,24 @@ desCurrency.addEventListener("change", ()=>{
   dest = desCurrency.value;
   value = convertOrigValue.value;
 
-  //TODO: send request to server and convert
+  if (value === '') {
+    return
+  }
+  fetch('/api/convert', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      value: value,
+      orig: orig,
+      dest: dest
+    })
+  })
+  .then(response => response.json())
+  .then(response => {
+    desNumber.value = response.response
+  });
   orcurr.innerHTML = symbols[orig];
   convertDes.innerHTML = historyCurr[historyCurr.length-1]['rates'][dest]/historyCurr[historyCurr.length-1]['rates'][orig] + " " + symbols[dest];
   
@@ -88,10 +168,14 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-(async () => {
+async  function init(){
+  symbols = [];
+  historyCurr = [];
+  options = {method: 'GET'};
+  dataChart = [];
+  datesChart = [];
 
-
-fetch('http://127.0.0.1:5000/api/symbols', options)
+fetch('/api/symbols', options)
   .then(response => response.json())
   .then(response => {
     symbols = response
@@ -108,7 +192,7 @@ fetch('http://127.0.0.1:5000/api/symbols', options)
   })
   .catch(err => console.error(err));
 
-  fetch('http://127.0.0.1:5000/api/lastest', options)
+  fetch('/api/lastest', options)
   .then(response => response.json())
   .then(response => {
     
@@ -125,7 +209,7 @@ fetch('http://127.0.0.1:5000/api/symbols', options)
   })
   .catch(err => console.error(err));
 
-  await fetch('http://127.0.0.1:5000/api/history', options)
+  await fetch('/api/history', options)
   .then(response => response.json())
   .then(response => {
     historyCurr = response;
@@ -135,31 +219,37 @@ fetch('http://127.0.0.1:5000/api/symbols', options)
     };
   })
   .catch(err => console.error(err));
-if (document.getElementById('myChart')) {
+  document.getElementById('containerCanva').innerHTML = '<canvas id="myChart"></canvas>'
+  if (document.getElementById('myChart')) {
+    const ctx = document.getElementById('myChart');
 
-	const ctx = document.getElementById('myChart');
-
-  chart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: datesChart,
-      datasets: [{
-        data: dataChart,
-        borderWidth: 1,
-        tension: 0.4,
-        backgroundColor: "#091c5a4d",
-        borderColor: "#091c5a",
-        fill: true,
-      }]
-    },options: {
-      plugins: {
-        legend: {
-          display: false,
-          text: 'Chart Title',
+    chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: datesChart,
+        datasets: [{
+          data: dataChart,
+          borderWidth: 1,
+          tension: 0.4,
+          backgroundColor: "#091c5a4d",
+          borderColor: "#091c5a",
+          fill: true,
+        }]
+      },options: {
+        plugins: {
+          legend: {
+            display: false,
+            text: 'Chart Title',
+          }
         }
       }
-    }
-  });
-};
+    });
+  };
 
-})();
+  sleep(1000)
+
+  loadingModal.classList.add('hidden');
+
+}
+
+init();

@@ -31,12 +31,17 @@ class Currency:
 
     def getSymbols(self):
         return self.symbols["symbols"]
-        
+    
+    def convert(self, origin, value, dest):
+        if origin not in self.data['rates']:
+            return "Error: Invalid currency"
+        if dest not in self.data['rates']:
+            return "Error: Invalid currency"
+        return float(value) * self.data['rates'][dest] / self.data['rates'][origin]
+
     def update(self):
         try:
-            #request to API server
             contents = urllib.request.urlopen("http://api.exchangeratesapi.io/v1/latest?access_key=accc744cc95502fcdaf5a5f4b14f8d54").read()
-            #read file contents
             f = open("currencyHistory.json")
             data = json.loads(f.read())
             f.close()
